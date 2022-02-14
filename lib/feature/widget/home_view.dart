@@ -13,19 +13,19 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        leading: Icon(Icons.backspace_outlined),
-        actions: [Icon(Icons.favorite)],
-        title: Text('Hoşgeldinz'),
+        leading: const Icon(Icons.backspace_outlined),
+        actions: [const Icon(Icons.favorite)],
+        title: const Text('Hoşgeldinz'),
       ),
       body: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         scrollDirection: Axis.vertical,
         child: Container(
           height: MediaQuery.of(context).size.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Selam'),
+              const Text('Selam'),
               SizedBox(height: 80, width: 80, child: Image.asset("assets/images/dog.jpeg")),
               Center(
                 child: ElevatedButton(
