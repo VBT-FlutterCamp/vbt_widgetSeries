@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vbt_camp_widget/feature/login/view/login_view.dart';
 
 import 'feature/onboard/view/onboard_screen_view.dart';
-import 'feature/widget/home_view.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,6 +15,6 @@ class MyApp extends StatelessWidget {
             primaryColor: Color(0XFF5ABD8C)),
         title: 'Material App',
         debugShowCheckedModeBanner: false,
-        home: OnBoardScreen());
+        home: LoginView());
   }
 }
