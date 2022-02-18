@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
+import 'package:vbt_camp_widget/feature/login/sign_up.dart';
 import 'package:vbt_camp_widget/product/companents/text/app_text_strings.dart';
 import 'package:vbt_camp_widget/product/widget/custom_text_form_field.dart';
 
@@ -39,14 +40,14 @@ class _LoginViewState extends State<LoginView> {
                   child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        AppString().signInText ?? '',
+                        AppString().signInText,
                         style: context.textTheme.headline4,
                       ))),
               Expanded(
                 flex: 7,
                 child: Card(
                   elevation: 5,
-                  child: _TextFields(),
+                  child: _textFields(),
                 ),
               ),
               Expanded(
@@ -56,7 +57,7 @@ class _LoginViewState extends State<LoginView> {
               SizedBox(
                 height: context.dynamicHeight(0.09),
                 width: context.dynamicWidth(0.9),
-                child: _LoginButton(context),
+                child: _loginButton(context),
               ),
               const Spacer(),
             ],
@@ -66,7 +67,7 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  Form _TextFields() {
+  Form _textFields() {
     return Form(
       key: _formKey,
       child: Column(
@@ -74,20 +75,20 @@ class _LoginViewState extends State<LoginView> {
         children: [
           CustomTextFormField(
             codeController: _codeController,
-            labelText: AppString().specialCodeText ?? '',
+            labelText: AppString().specialCodeText,
             textInputType: TextInputType.number,
             focusNode: _codeNode,
           ),
           CustomTextFormField(
             focusNode: _emailNode,
             codeController: _mailController,
-            labelText: AppString().emailText ?? '',
+            labelText: AppString().emailText,
             textInputType: TextInputType.emailAddress,
           ),
           CustomTextFormField(
             focusNode: _passwordNode,
             codeController: _passwordController,
-            labelText: AppString().passwordText ?? '',
+            labelText: AppString().passwordText,
             isPassword: true,
             textInputType: TextInputType.visiblePassword,
           ),
@@ -108,17 +109,17 @@ class _LoginViewState extends State<LoginView> {
                 isCheckBox = value ?? false;
               });
             }),
-        Text(AppString().loggedInText ?? ''),
+        Text(AppString().loggedInText),
         const Spacer(),
         Padding(
           padding: context.horizontalPaddingMedium,
-          child: Text(AppString().forgotPasswordText ?? ''),
+          child: Text(AppString().forgotPasswordText),
         ),
       ],
     );
   }
 
-  ElevatedButton _LoginButton(BuildContext context) {
+  ElevatedButton _loginButton(BuildContext context) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: _formKey.currentState != null && _formKey.currentState!.validate()
@@ -139,13 +140,15 @@ class _LoginViewState extends State<LoginView> {
             ),
           ),
         ),
-        onPressed: () {
+        onPressed: () async {
           if (_formKey.currentState!.validate()) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppString().talepAlindi ?? '')));
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppString().talepAlindi)));
+            await Future.delayed(Duration(seconds: 2));
+            context.navigateToPage(SignUp());
           }
         },
         child: Text(
-          AppString().signInText ?? '',
+          AppString().signInText,
           style: context.textTheme.headline6,
         ));
   }
