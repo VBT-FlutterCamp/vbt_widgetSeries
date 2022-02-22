@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vbt_camp_widget/feature/httpService/view/id_view.dart';
 import 'package:vbt_camp_widget/feature/httpService/view/post_view.dart';
+import 'package:vbt_camp_widget/feature/httpService/view/wiki_view.dart';
 import 'package:vbt_camp_widget/feature/login/sign_up.dart';
 import 'package:vbt_camp_widget/feature/login/view/login_view.dart';
 
@@ -23,6 +25,6 @@ class MyApp extends StatelessWidget {
             primaryColor: Color(0XFF5ABD8C)),
         title: 'Material App',
         debugShowCheckedModeBanner: false,
-        home: PostView());
+        home: IdView());
   }
 }
