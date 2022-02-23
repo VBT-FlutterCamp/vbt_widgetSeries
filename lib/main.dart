@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vbt_camp_widget/feature/httpService/view/id_view.dart';
-import 'package:vbt_camp_widget/feature/httpService/view/post_view.dart';
-import 'package:vbt_camp_widget/feature/httpService/view/wiki_view.dart';
-import 'package:vbt_camp_widget/feature/login/sign_up.dart';
-import 'package:vbt_camp_widget/feature/login/view/login_view.dart';
 
-import 'feature/home/view/home_view.dart';
-import 'feature/onboard/view/onboard_screen_view.dart';
+import 'feature/dioService/view/album_view.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,6 +19,6 @@ class MyApp extends StatelessWidget {
             primaryColor: Color(0XFF5ABD8C)),
         title: 'Material App',
         debugShowCheckedModeBanner: false,
-        home: IdView());
+        home: AlbumView());
   }
 }
