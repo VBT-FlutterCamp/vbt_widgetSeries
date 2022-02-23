@@ -12,4 +12,5 @@ class AppString {
   String talepAlindi = 'Talebiniz alındı';
   String signUp = 'Sign Up';
   String mountlySignUp = 'Montly you can get an email';
+  String nullData = 'bu data boş';
 }
