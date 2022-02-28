@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'feature/dioService/view/album_view.dart';
+import 'feature/login/view/login_view.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,6 +20,6 @@ class MyApp extends StatelessWidget {
             primaryColor: Color(0XFF5ABD8C)),
         title: 'Material App',
         debugShowCheckedModeBanner: false,
-        home: AlbumView());
+        home: LoginView());
   }
 }

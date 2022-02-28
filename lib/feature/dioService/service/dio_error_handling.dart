@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+/* import 'package:dio/dio.dart';
 
 class ErrorHandling {
   void handlingErrors() async {
@@ -13,3 +13,4 @@ class ErrorHandling {
     }
   }
 }
+ */

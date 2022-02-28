@@ -1,4 +1,4 @@
-//bacis request
+/* //bacis request
 import 'package:dio/dio.dart';
 
 // Interceptors, Global configuration, FormData, Request Cancellation, File downloading, Timeout
@@ -42,3 +42,4 @@ class DioServiceBasicRequest {
     }
   }
 }
+ */

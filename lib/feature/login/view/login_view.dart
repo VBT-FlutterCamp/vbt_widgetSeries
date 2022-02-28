@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kartal/kartal.dart';
-import 'package:vbt_camp_widget/feature/login/sign_up.dart';
-import 'package:vbt_camp_widget/product/companents/text/app_text_strings.dart';
-import 'package:vbt_camp_widget/product/widget/custom_text_form_field.dart';
+
+import '../../../product/companents/text/app_text_strings.dart';
+import '../../../product/widget/custom_text_form_field.dart';
+import '../../core/base/base_view.dart';
+import '../model/user_req_model.dart';
+import '../viewModel/login_view_model.dart';
 
 class LoginView extends StatefulWidget {
   LoginView({Key? key}) : super(key: key);
@@ -12,82 +16,78 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  final TextEditingController _codeController = TextEditingController();
-  final TextEditingController _mailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool isCheckBox = false;
-  final FocusNode _codeNode = FocusNode();
-  final FocusNode _emailNode = FocusNode();
-  final FocusNode _passwordNode = FocusNode();
-  final _formKey = GlobalKey<FormState>();
-  bool isValidate = false;
   double _borderRadius = 6;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        physics: _codeNode.hasFocus || _emailNode.hasFocus || _passwordNode.hasFocus
-            ? const ScrollPhysics()
-            : const NeverScrollableScrollPhysics(),
-        child: SizedBox(
-          height: context.dynamicHeight(1),
-          child: Column(
-            children: [
-              const Spacer(),
-              Expanded(
-                  flex: 1,
-                  child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        AppString().signInText,
-                        style: context.textTheme.headline4,
-                      ))),
-              Expanded(
-                flex: 7,
-                child: Card(
-                  elevation: 5,
-                  child: _textFields(),
+    return BaseView<LoginViewModel>(
+        viewModel: LoginViewModel(),
+        onModelReady: (model) {
+          model.setContext(context);
+          model.init();
+        },
+        onPageBuilder: (BuildContext context, LoginViewModel viewModel) => Scaffold(
+              body: SingleChildScrollView(
+                physics: viewModel.codeNode.hasFocus || viewModel.emailNode.hasFocus || viewModel.passwordNode.hasFocus
+                    ? const ScrollPhysics()
+                    : const NeverScrollableScrollPhysics(),
+                child: SizedBox(
+                  height: context.dynamicHeight(1),
+                  child: Column(
+                    children: [
+                      const Spacer(),
+                      Expanded(
+                          flex: 1,
+                          child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                AppString().signInText,
+                                style: context.textTheme.headline4,
+                              ))),
+                      Expanded(
+                          flex: 7,
+                          child: Card(
+                            elevation: 5,
+                            child: _textFields(viewModel),
+                          )),
+                      Expanded(
+                        flex: 1,
+                        child: _subInfo(context, viewModel),
+                      ),
+                      SizedBox(
+                        height: context.dynamicHeight(0.09),
+                        width: context.dynamicWidth(0.9),
+                        child: _loginButton(context, viewModel),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: _subInfo(context),
-              ),
-              SizedBox(
-                height: context.dynamicHeight(0.09),
-                width: context.dynamicWidth(0.9),
-                child: _loginButton(context),
-              ),
-              const Spacer(),
-            ],
-          ),
-        ),
-      ),
-    );
+            ));
   }
 
-  Form _textFields() {
+  Form _textFields(LoginViewModel viewModel) {
     return Form(
-      key: _formKey,
+      key: viewModel.formKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CustomTextFormField(
-            codeController: _codeController,
+            codeController: viewModel.codeController,
             labelText: AppString().specialCodeText,
             textInputType: TextInputType.number,
-            focusNode: _codeNode,
+            focusNode: viewModel.codeNode,
           ),
           CustomTextFormField(
-            focusNode: _emailNode,
-            codeController: _mailController,
+            focusNode: viewModel.emailNode,
+            codeController: viewModel.mailController,
             labelText: AppString().emailText,
             textInputType: TextInputType.emailAddress,
           ),
           CustomTextFormField(
-            focusNode: _passwordNode,
-            codeController: _passwordController,
+            focusNode: viewModel.passwordNode,
+            codeController: viewModel.passwordController,
             labelText: AppString().passwordText,
             isPassword: true,
             textInputType: TextInputType.visiblePassword,
@@ -97,18 +97,18 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  Row _subInfo(BuildContext context) {
+  Row _subInfo(BuildContext context, LoginViewModel viewModel) {
     return Row(
       children: [
-        Checkbox(
-            value: isCheckBox,
-            activeColor: context.appTheme.primaryColor,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_borderRadius)),
-            onChanged: (bool? value) {
-              setState(() {
-                isCheckBox = value ?? false;
+        Observer(builder: (_) {
+          return Checkbox(
+              value: viewModel.isCheckBox,
+              activeColor: context.appTheme.primaryColor,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_borderRadius)),
+              onChanged: (bool? value) {
+                viewModel.isCheckBox = value ?? false;
               });
-            }),
+        }),
         Text(AppString().loggedInText),
         const Spacer(),
         Padding(
@@ -119,10 +119,10 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  ElevatedButton _loginButton(BuildContext context) {
+  ElevatedButton _loginButton(BuildContext context, LoginViewModel viewModel) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: _formKey.currentState != null && _formKey.currentState!.validate()
+          primary: viewModel.formKey.currentState != null && viewModel.formKey.currentState!.validate()
               ? context.appTheme.primaryColor
               : context.appTheme.backgroundColor,
           /*  _codeController.text.isNotNullOrNoEmpty &&
@@ -141,11 +141,11 @@ class _LoginViewState extends State<LoginView> {
           ),
         ),
         onPressed: () async {
-          if (_formKey.currentState!.validate()) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppString().talepAlindi)));
-            await Future.delayed(Duration(seconds: 2));
-            context.navigateToPage(SignUp());
-          }
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppString().talepAlindi)));
+          // await Future.delayed(Duration(seconds: 2));
+          // context.navigateToPage(SignUp());
+          viewModel.login(
+              UserRequestModel(email: viewModel.mailController.text, password: viewModel.passwordController.text));
         },
         child: Text(
           AppString().signInText,
