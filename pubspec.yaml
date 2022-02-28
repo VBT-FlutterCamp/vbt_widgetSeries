@@ -37,7 +37,8 @@ dependencies:
   #utiliy
   kartal: ^2.3.1
   #service
-  http: ^0.13.4
+ # http: ^0.13.4
+  dio: ^4.0.4
   #firebase
 
 dev_dependencies:

@@ -13,7 +13,7 @@ class PostView extends StatefulWidget {
 }
 
 class _PostViewState extends State<PostView> {
-  PostService _postService = PostService();
+  final PostService _postService = PostService();
   List<PostModel>? _postModel;
   bool isLoading = false;
   bool openText = false;
@@ -63,10 +63,10 @@ class _PostViewState extends State<PostView> {
                       child: Text(
                         _postModel?[index].body ?? AppString().nullData,
                         style: openText
-                            ? TextStyle()
+                            ? const TextStyle()
                             : TextStyle(
                                 foreground: Paint()
-                                  ..shader = LinearGradient(colors: [Colors.grey, Colors.white])
+                                  ..shader = const LinearGradient(colors: [Colors.grey, Colors.white])
                                       .createShader(Rect.fromLTWH(0, 0, 500, 0))),
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
