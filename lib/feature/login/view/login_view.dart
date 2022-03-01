@@ -2,21 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kartal/kartal.dart';
 
+import '../../../core/base/base_view.dart';
 import '../../../product/companents/text/app_text_strings.dart';
 import '../../../product/widget/custom_text_form_field.dart';
-import '../../core/base/base_view.dart';
 import '../model/user_req_model.dart';
 import '../viewModel/login_view_model.dart';
 
-class LoginView extends StatefulWidget {
-  LoginView({Key? key}) : super(key: key);
-
-  @override
-  State<LoginView> createState() => _LoginViewState();
-}
-
-class _LoginViewState extends State<LoginView> {
-  double _borderRadius = 6;
+class LoginView extends StatelessWidget {
+  const LoginView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,90 +59,92 @@ class _LoginViewState extends State<LoginView> {
               ),
             ));
   }
+}
 
-  Form _textFields(LoginViewModel viewModel) {
-    return Form(
-      key: viewModel.formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CustomTextFormField(
-            codeController: viewModel.codeController,
-            labelText: AppString().specialCodeText,
-            textInputType: TextInputType.number,
-            focusNode: viewModel.codeNode,
-          ),
-          CustomTextFormField(
-            focusNode: viewModel.emailNode,
-            codeController: viewModel.mailController,
-            labelText: AppString().emailText,
-            textInputType: TextInputType.emailAddress,
-          ),
-          CustomTextFormField(
-            focusNode: viewModel.passwordNode,
-            codeController: viewModel.passwordController,
-            labelText: AppString().passwordText,
-            isPassword: true,
-            textInputType: TextInputType.visiblePassword,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Row _subInfo(BuildContext context, LoginViewModel viewModel) {
-    return Row(
+Form _textFields(LoginViewModel viewModel) {
+  return Form(
+    key: viewModel.formKey,
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Observer(builder: (_) {
-          return Checkbox(
-              value: viewModel.isCheckBox,
-              activeColor: context.appTheme.primaryColor,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_borderRadius)),
-              onChanged: (bool? value) {
-                viewModel.isCheckBox = value ?? false;
-              });
-        }),
-        Text(AppString().loggedInText),
-        const Spacer(),
-        Padding(
-          padding: context.horizontalPaddingMedium,
-          child: Text(AppString().forgotPasswordText),
+        CustomTextFormField(
+          codeController: viewModel.codeController,
+          labelText: AppString().specialCodeText,
+          textInputType: TextInputType.number,
+          focusNode: viewModel.codeNode,
+        ),
+        CustomTextFormField(
+          focusNode: viewModel.emailNode,
+          codeController: viewModel.mailController,
+          labelText: AppString().emailText,
+          textInputType: TextInputType.emailAddress,
+        ),
+        CustomTextFormField(
+          focusNode: viewModel.passwordNode,
+          codeController: viewModel.passwordController,
+          labelText: AppString().passwordText,
+          isPassword: true,
+          textInputType: TextInputType.visiblePassword,
         ),
       ],
-    );
-  }
+    ),
+  );
+}
 
-  ElevatedButton _loginButton(BuildContext context, LoginViewModel viewModel) {
-    return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          primary: viewModel.formKey.currentState != null && viewModel.formKey.currentState!.validate()
-              ? context.appTheme.primaryColor
-              : context.appTheme.backgroundColor,
-          /*  _codeController.text.isNotNullOrNoEmpty &&
+Row _subInfo(BuildContext context, LoginViewModel viewModel) {
+  double _borderRadius = 6;
+
+  return Row(
+    children: [
+      Observer(builder: (_) {
+        return Checkbox(
+            value: viewModel.isCheckBox,
+            activeColor: context.appTheme.primaryColor,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_borderRadius)),
+            onChanged: (bool? value) {
+              viewModel.isCheckBox = value ?? false;
+            });
+      }),
+      Text(AppString().loggedInText),
+      const Spacer(),
+      Padding(
+        padding: context.horizontalPaddingMedium,
+        child: Text(AppString().forgotPasswordText),
+      ),
+    ],
+  );
+}
+
+ElevatedButton _loginButton(BuildContext context, LoginViewModel viewModel) {
+  return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: viewModel.formKey.currentState != null && viewModel.formKey.currentState!.validate()
+            ? context.appTheme.primaryColor
+            : context.appTheme.backgroundColor,
+        /*  _codeController.text.isNotNullOrNoEmpty &&
                                 _mailController.text.isNotNullOrNoEmpty &&
                                 _passwordController.text.isNotNullOrNoEmpty
                             ? context.appTheme.primaryColor
                             : context.appTheme.backgroundColor, */
+        side: BorderSide(
+          color: context.appTheme.primaryColor,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: context.normalBorderRadius,
           side: BorderSide(
             color: context.appTheme.primaryColor,
           ),
-          shape: RoundedRectangleBorder(
-            borderRadius: context.normalBorderRadius,
-            side: BorderSide(
-              color: context.appTheme.primaryColor,
-            ),
-          ),
         ),
-        onPressed: () async {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppString().talepAlindi)));
-          // await Future.delayed(Duration(seconds: 2));
-          // context.navigateToPage(SignUp());
-          viewModel.login(
-              UserRequestModel(email: viewModel.mailController.text, password: viewModel.passwordController.text));
-        },
-        child: Text(
-          AppString().signInText,
-          style: context.textTheme.headline6,
-        ));
-  }
+      ),
+      onPressed: () async {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppString().talepAlindi)));
+        // await Future.delayed(Duration(seconds: 2));
+        // context.navigateToPage(SignUp());
+        viewModel
+            .login(UserRequestModel(email: viewModel.mailController.text, password: viewModel.passwordController.text));
+      },
+      child: Text(
+        AppString().signInText,
+        style: context.textTheme.headline6,
+      ));
 }
