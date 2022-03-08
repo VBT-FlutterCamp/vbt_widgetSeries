@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'package:vbt_camp_widget/feature/core/base/base_view_model.dart';
 import 'package:vbt_camp_widget/feature/login/model/user_res_model.dart';
 
+import '../../../core/base/base_view_model.dart';
 import '../model/user_req_model.dart';
 import '../service/user_service.dart';
 part 'login_view_model.g.dart';
