@@ -40,6 +40,8 @@ dependencies:
   flutter_mobx: ^2.0.4
   mobx_codegen: ^2.0.5+2
   vexana: ^2.7.0
+  shared_preferences: ^2.0.13
+  provider: ^6.0.2
   #service
  # http: ^0.13.4
  # dio: ^4.0.4

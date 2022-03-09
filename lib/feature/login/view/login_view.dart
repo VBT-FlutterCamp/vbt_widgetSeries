@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kartal/kartal.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/base/base_view.dart';
 import '../../../product/companents/text/app_text_strings.dart';
+import '../../../product/mixin/model/user_manager.dart';
 import '../../../product/widget/custom_text_form_field.dart';
 import '../model/user_req_model.dart';
 import '../viewModel/login_view_model.dart';
@@ -52,6 +54,9 @@ class LoginView extends StatelessWidget {
                         width: context.dynamicWidth(0.9),
                         child: _loginButton(context, viewModel),
                       ),
+                      Observer(builder: (_) {
+                        return Text(context.read<UserManager>().userResponseModel?.token ?? '');
+                      }),
                       const Spacer(),
                     ],
                   ),

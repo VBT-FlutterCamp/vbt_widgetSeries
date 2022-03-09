@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:vbt_camp_widget/core/init/locale/locale_manager.dart';
+import 'package:vbt_camp_widget/product/mixin/model/user_manager.dart';
 
 import 'feature/dioService/view/album_view.dart';
 import 'feature/login/view/login_view.dart';
 
-void main() => runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocaleManager.preferencesInit();
+  runApp(MultiProvider(
+    providers: [Provider.value(value: UserManager())],
+    child: MyApp(),
+  ));
+}
 
 class MyApp extends StatelessWidget {
   @override
